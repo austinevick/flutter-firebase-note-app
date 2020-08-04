@@ -51,7 +51,6 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                     widget.isUpdating ? 'Modify Note' : 'Add Note',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.purple,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
