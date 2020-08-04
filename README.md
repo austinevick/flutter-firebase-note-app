@@ -1,4 +1,5 @@
 # firebase_note_app
+![](https://github.com/austinevick/flutter-firebase-note-app/blob/master/screenshots/Screenshot_20200725-063217.png)
 ![](https://github.com/austinevick/flutter-firebase-note-app/blob/master/screenshots/Screenshot_20200802-164419.png)
 ![](https://github.com/austinevick/flutter-firebase-note-app/blob/master/screenshots/Screenshot_20200802-164428.png)
 A new Flutter project.
