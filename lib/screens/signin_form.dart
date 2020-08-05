@@ -93,10 +93,14 @@ class _SignInFormState extends State<SignInForm> {
                           style: TextStyle(fontSize: 22, color: Colors.black),
                         )),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('FORGOT PASSWORD',
-                            style: TextStyle(color: Colors.black)),
+                      GestureDetector(
+                        onTap: () =>
+                            UserAuthenticationService().resetPassword(email),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('FORGOT PASSWORD',
+                              style: TextStyle(color: Colors.black)),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -152,19 +156,6 @@ class _SignInFormState extends State<SignInForm> {
         ),
       ),
     );
-  }
-
-  signInWithGoogle() async {
-    final auth = Provider.of<UserAuthenticationService>(context, listen: false);
-    try {
-      bool result = await auth.signInWithGoogle();
-      if (result == true) {
-        return true;
-      } else
-        return false;
-    } catch (e) {
-      setState(() => error = e.message);
-    }
   }
 
   submit() async {
