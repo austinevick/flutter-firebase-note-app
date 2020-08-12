@@ -34,9 +34,9 @@ class SearchScreen extends SearchDelegate<Note> {
   Widget buildResults(BuildContext context) {
     final noteNotifier = Provider.of<FirestoreService>(context);
 
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<List<Note>>(
         stream: noteNotifier.fetchNoteAsStream(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
                 child: Container(
@@ -53,8 +53,7 @@ class SearchScreen extends SearchDelegate<Note> {
               ),
             ));
           }
-          List<Note> noteList = snapshot.data.documents
-              .map((e) => Note.fromMap(e.data, e.documentID))
+          List<Note> noteList = snapshot.data
               .where((element) => element.title.toLowerCase().contains(query))
               .toList();
           return ListView.builder(
@@ -77,9 +76,9 @@ class SearchScreen extends SearchDelegate<Note> {
   Widget buildSuggestions(BuildContext context) {
     final noteNotifier = Provider.of<FirestoreService>(context);
 
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<List<Note>>(
         stream: noteNotifier.fetchNoteAsStream(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
                 child: Container(
@@ -96,23 +95,26 @@ class SearchScreen extends SearchDelegate<Note> {
               ),
             ));
           }
-          List<Note> noteList = snapshot.data.documents
-              .map((e) => Note.fromMap(e.data, e.documentID))
+          List<Note> noteList = snapshot.data
               .where((element) => element.title.toLowerCase().contains(query))
               .toList();
-          return ListView.builder(
-              itemCount: noteList.length,
-              itemBuilder: (context, index) {
-                final note = noteList[index];
-                return GestureDetector(
-                    onTap: () => openCustomDialog(
-                        context: context,
-                        child: CustomDialogPage(
-                          isUpdating: true,
-                          note: note,
-                        )),
-                    child: buildNoteList(context, note));
-              });
+          return noteList.isEmpty
+              ? Center(
+                  child: Text('No Match found'),
+                )
+              : ListView.builder(
+                  itemCount: noteList.length,
+                  itemBuilder: (context, index) {
+                    final note = noteList[index];
+                    return GestureDetector(
+                        onTap: () => openCustomDialog(
+                            context: context,
+                            child: CustomDialogPage(
+                              isUpdating: true,
+                              note: note,
+                            )),
+                        child: buildNoteList(context, note));
+                  });
         });
   }
 

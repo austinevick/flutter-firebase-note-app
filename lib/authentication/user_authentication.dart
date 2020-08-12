@@ -1,6 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_note_app/database/firestore_service.dart';
-import 'package:firebase_note_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserAuthenticationService with ChangeNotifier {
@@ -8,10 +6,6 @@ class UserAuthenticationService with ChangeNotifier {
 
   Stream get onAuthStateChanged =>
       auth.onAuthStateChanged.map((FirebaseUser user) => user?.uid);
-
-  Future getCurrentUserId() async {
-    return (await auth.currentUser()).uid;
-  }
 
   Future getCurrentUser() async {
     return await auth.currentUser();

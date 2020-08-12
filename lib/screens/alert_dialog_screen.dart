@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/note.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
         ),
         elevation: 0,
         child: Container(
-          height: MediaQuery.of(context).size.height / 1.8,
+          height: MediaQuery.of(context).size.height / 2,
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -130,7 +131,11 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                           ),
                           color: Colors.purple,
                           onPressed: () async {
+                            final user =
+                                await FirebaseAuth.instance.currentUser();
+
                             Note note = Note(
+                                userId: user.uid,
                                 dateTime: DateFormat.yMMMd()
                                     .add_Hm()
                                     .format(DateTime.now()),
@@ -143,7 +148,7 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                             if (widget.note == null) {
                               await p.addNote(note);
                             } else {
-                              await p.updateNote(note, widget.note.id);
+                              await p.updateNote(note, widget.note.userId);
                             }
                           },
                           child: Text(widget.note == null ? 'DONE' : 'UPDATE',
@@ -163,7 +168,7 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                                 onPressed: () async {
                                   Navigator.pop(context);
 
-                                  await p.deleteNote(widget.note.id);
+                                  await p.deleteNote(widget.note.userId);
                                 },
                                 child: Text('DELETE',
                                     style: TextStyle(

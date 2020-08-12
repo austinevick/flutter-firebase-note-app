@@ -1,5 +1,6 @@
 import 'package:firebase_note_app/authentication/user_authentication.dart';
 import 'package:firebase_note_app/constants/constant.dart';
+import 'package:firebase_note_app/screens/forgot_password_form.dart';
 import 'package:firebase_note_app/screens/screen_transition.dart';
 import 'package:firebase_note_app/widget/widget.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _SignInFormState extends State<SignInForm> {
   final formkey = new GlobalKey<FormState>();
   String email, password, error;
   bool isVisible = true;
-
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +59,7 @@ class _SignInFormState extends State<SignInForm> {
                               : null,
                           decoration:
                               textInputDecoration.copyWith(hintText: 'Email'),
-                          style: TextStyle(fontSize: 22, color: Colors.black),
+                          style: TextStyle(fontSize: 20, color: Colors.black),
                         )),
                       ),
                       SizedBox(
@@ -80,25 +81,29 @@ class _SignInFormState extends State<SignInForm> {
                               suffixIcon: IconButton(
                                 icon: isVisible
                                     ? Icon(
-                                        Icons.visibility_off,
+                                        Icons.visibility,
                                         color: Colors.black,
                                       )
                                     : Icon(
-                                        Icons.visibility,
+                                        Icons.visibility_off,
                                         color: Colors.black,
                                       ),
                                 onPressed: () =>
                                     setState(() => isVisible = !isVisible),
                               )),
-                          style: TextStyle(fontSize: 22, color: Colors.black),
+                          style: TextStyle(fontSize: 20, color: Colors.black),
                         )),
                       ),
                       GestureDetector(
-                        onTap: () =>
-                            UserAuthenticationService().resetPassword(email),
+                        onTap: () => Navigator.push(
+                            context,
+                            PageTransition(
+                                duration: Duration(milliseconds: 500),
+                                child: ForgotPasswordForm(),
+                                type: PageTransitionType.rightToLeft)),
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('FORGOT PASSWORD',
+                          child: Text('FORGOT PASSWORD?',
                               style: TextStyle(color: Colors.black)),
                         ),
                       ),
@@ -113,10 +118,16 @@ class _SignInFormState extends State<SignInForm> {
                                   borderRadius: BorderRadius.circular(50)),
                               color: Color(0xff171da7),
                               onPressed: () => submit(),
-                              child: Text(
-                                'SIGN IN',
-                                style: buttonTextStyle,
-                              )),
+                              child: isLoading
+                                  ? Center(
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : Text(
+                                      'SIGN IN',
+                                      style: buttonTextStyle,
+                                    )),
                         ),
                       ),
                     ],
@@ -163,10 +174,12 @@ class _SignInFormState extends State<SignInForm> {
     try {
       if (formkey.currentState.validate()) {
         formkey.currentState.save();
+        if (mounted) setState(() => isLoading = true);
         await auth.signInWithEmailAndPassword(email: email, password: password);
       }
+      if (mounted) setState(() => isLoading = true);
     } on PlatformException catch (e) {
-      print(e);
+      setState(() => isLoading = false);
 
       showDialog(
           context: context,

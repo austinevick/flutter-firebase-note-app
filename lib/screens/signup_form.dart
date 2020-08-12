@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_note_app/authentication/user_authentication.dart';
 import 'package:firebase_note_app/constants/constant.dart';
+import 'package:firebase_note_app/screens/homepage.dart';
 import 'package:firebase_note_app/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +17,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final formkey = new GlobalKey<FormState>();
   String name, email, password, error;
   bool isVisible = true;
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +52,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             value.isEmpty ? 'Please enter your name' : null,
                         decoration:
                             textInputDecoration.copyWith(hintText: 'Name'),
-                        style: TextStyle(fontSize: 22, color: Colors.black),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                       )),
                     ),
                     SizedBox(
@@ -67,7 +70,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             : null,
                         decoration:
                             textInputDecoration.copyWith(hintText: 'Email'),
-                        style: TextStyle(fontSize: 22, color: Colors.black),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                       )),
                     ),
                     SizedBox(
@@ -89,16 +92,16 @@ class _SignUpFormState extends State<SignUpForm> {
                             suffixIcon: IconButton(
                                 icon: isVisible
                                     ? Icon(
-                                        Icons.visibility_off,
+                                        Icons.visibility,
                                         color: Colors.black,
                                       )
                                     : Icon(
-                                        Icons.visibility,
+                                        Icons.visibility_off,
                                         color: Colors.black,
                                       ),
                                 onPressed: () =>
                                     setState(() => isVisible = !isVisible))),
-                        style: TextStyle(fontSize: 22, color: Colors.black),
+                        style: TextStyle(fontSize: 20, color: Colors.black),
                       )),
                     ),
                     SizedBox(
@@ -116,10 +119,16 @@ class _SignUpFormState extends State<SignUpForm> {
                                 borderRadius: BorderRadius.circular(50)),
                             color: Color(0xff171da7),
                             onPressed: () => submit(),
-                            child: Text(
-                              'CREATE ACCOUNT',
-                              style: buttonTextStyle,
-                            )),
+                            child: isLoading
+                                ? Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : Text(
+                                    'CREATE ACCOUNT',
+                                    style: buttonTextStyle,
+                                  )),
                       ),
                     ),
                   ],
@@ -160,10 +169,17 @@ class _SignUpFormState extends State<SignUpForm> {
     try {
       if (formkey.currentState.validate()) {
         formkey.currentState.save();
-        await auth.createUserEmailAndPassword(
+        if (mounted) setState(() => isLoading = true);
+
+        final user = await auth.createUserEmailAndPassword(
             name: name, email: email, password: password);
+        if (user != null)
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (ctx) => HomePage()));
       }
+      if (mounted) setState(() => isLoading = true);
     } on PlatformException catch (e) {
+      setState(() => isLoading = false);
       showDialog(
           context: context,
           builder: (context) => buildAlertDialog(context, e.message));

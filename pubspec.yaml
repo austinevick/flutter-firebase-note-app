@@ -36,7 +36,8 @@ dependencies:
   firebase_auth: 
   flutter_local_notifications:
   rxdart: 
-  flutter_share:  
+  flutter_share:
+  flutter_spinkit:  
   share:
   clipboard_manager:
   flutter_custom_clippers:

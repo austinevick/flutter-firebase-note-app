@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:animations/animations.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/note.dart';
@@ -39,20 +37,13 @@ class _HomePageState extends State<HomePage> {
                   child: CustomDialogPage(
                 isUpdating: false,
               ));
-              // showDialog(
-              //   context: context,
-              // builder: (context) => CustomDialog(
-              //     isUpdating: false,
-              // ));
             },
             child: Icon(
               Icons.add,
               size: 28,
             )),
-        drawer: Drawer(
-          child: UserAccountDrawerScreen(),
-        ),
         appBar: AppBar(
+          leading: UserAccountDrawerScreen(),
           centerTitle: true,
           title: Text(
             'All Notes',
@@ -79,30 +70,27 @@ class _HomePageState extends State<HomePage> {
                 }),
           ],
         ),
-        body: StreamBuilder<QuerySnapshot>(
+        body: StreamBuilder<List<Note>>(
             stream: noteNotifier.fetchNoteAsStream(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return Container();
               }
-              List<Note> noteList = snapshot.data.documents
-                  .map((e) => Note.fromMap(e.data, e.documentID))
-                  .toList();
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  noteList.isEmpty
+                  snapshot.data.isEmpty
                       ? Center()
                       : Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            noteList.length.toString() + ' Notes',
+                            snapshot.data.length.toString() + ' Notes',
                             style: TextStyle(fontSize: 18),
                           ),
                         ),
                   Expanded(
-                      child: noteList.isEmpty
+                      child: snapshot.data.isEmpty
                           ? Center(
                               child: Text(
                                 'No note to display\ntap the + icon to begin',
@@ -111,9 +99,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                             )
                           : ListView.builder(
-                              itemCount: noteList.length,
+                              itemCount: snapshot.data.length,
                               itemBuilder: (context, index) {
-                                final note = noteList[index];
+                                final note = snapshot.data[index];
                                 return GestureDetector(
                                     onTap: () => _openCustomDialog(
                                             child: CustomDialogPage(
