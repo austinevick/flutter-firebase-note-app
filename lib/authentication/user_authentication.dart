@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserAuthenticationService with ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
+  FirestoreService firestoreService = FirestoreService();
+  User _currentUser;
+  User get currentUser => _currentUser;
 
   Future<void> createUserEmailAndPassword(
       {@required String name,
@@ -12,10 +16,12 @@ class UserAuthenticationService with ChangeNotifier {
       @required String password}) async {
     AuthResult result = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    await Firestore.instance
-        .collection('users')
-        .document(result.user.uid)
-        .setData(User().toMap());
+    _currentUser = User(
+      userId: result.user.uid,
+      username: name,
+      email: email,
+    );
+    await firestoreService.createUsers(_currentUser);
   }
 
   Future signInWithEmailAndPassword(

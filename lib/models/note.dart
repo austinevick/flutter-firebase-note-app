@@ -13,6 +13,11 @@ class Note {
         content: map['content']);
   }
   Map<String, dynamic> toMap() {
-    return {'title': title, 'content': content, 'dateTime': dateTime};
+    return {
+      'userId': userId,
+      'title': title,
+      'content': content,
+      'dateTime': dateTime
+    };
   }
 }
