@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/user.dart';
@@ -10,7 +9,7 @@ class UserAuthenticationService with ChangeNotifier {
   User _currentUser;
   User get currentUser => _currentUser;
 
-  Future<void> createUserEmailAndPassword(
+  Future createUserEmailAndPassword(
       {@required String name,
       @required String email,
       @required String password}) async {
