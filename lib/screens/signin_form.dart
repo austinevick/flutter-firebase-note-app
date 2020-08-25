@@ -1,7 +1,6 @@
 import 'package:firebase_note_app/authentication/user_authentication.dart';
 import 'package:firebase_note_app/constants/constant.dart';
 import 'package:firebase_note_app/screens/forgot_password_form.dart';
-import 'package:firebase_note_app/screens/screen_transition.dart';
 import 'package:firebase_note_app/widget/widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,6 +50,7 @@ class _SignInFormState extends State<SignInForm> {
                         padding: textFieldPadding,
                         child: Card(
                             child: TextFormField(
+                          key: ValueKey('email'),
                           cursorColor: Colors.black,
                           cursorWidth: 1.5,
                           onSaved: (newValue) => email = newValue,
@@ -69,6 +69,7 @@ class _SignInFormState extends State<SignInForm> {
                         padding: textFieldPadding,
                         child: Card(
                             child: TextFormField(
+                          key: ValueKey('password'),
                           cursorColor: Colors.black,
                           cursorWidth: 1.5,
                           obscureText: isVisible,
@@ -177,7 +178,7 @@ class _SignInFormState extends State<SignInForm> {
         if (mounted) setState(() => isLoading = true);
         await auth.signInWithEmailAndPassword(email: email, password: password);
       }
-      if (mounted) setState(() => isLoading = true);
+      if (mounted) setState(() => isLoading = false);
     } on PlatformException catch (e) {
       setState(() => isLoading = false);
 

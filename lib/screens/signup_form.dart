@@ -171,13 +171,10 @@ class _SignUpFormState extends State<SignUpForm> {
         formkey.currentState.save();
         if (mounted) setState(() => isLoading = true);
 
-        final user = await auth.createUserEmailAndPassword(
+        await auth.createUserEmailAndPassword(
             name: name, email: email, password: password);
-        if (user != null)
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (ctx) => HomePage()));
       }
-      if (mounted) setState(() => isLoading = true);
+      if (mounted) setState(() => isLoading = false);
     } on PlatformException catch (e) {
       setState(() => isLoading = false);
       showDialog(

@@ -1,24 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_note_app/models/user.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserAuthenticationService with ChangeNotifier {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Stream get onAuthStateChanged =>
-      auth.onAuthStateChanged.map((FirebaseUser user) => user?.uid);
-
-  Future getCurrentUser() async {
-    return await auth.currentUser();
-  }
-
-  Future createUserEmailAndPassword(
+  Future<void> createUserEmailAndPassword(
       {@required String name,
       @required String email,
       @required String password}) async {
-    final authResult = await auth.createUserWithEmailAndPassword(
+    AuthResult result = await auth.createUserWithEmailAndPassword(
         email: email, password: password);
-
-    return authResult.user.uid;
+    await Firestore.instance
+        .collection('users')
+        .document(result.user.uid)
+        .setData(User().toMap());
   }
 
   Future signInWithEmailAndPassword(
