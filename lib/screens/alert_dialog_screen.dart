@@ -140,10 +140,11 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                                     .format(DateTime.now()),
                                 title: titleController.text,
                                 content: contentController.text);
-                            if (titleController.text.isEmpty &&
-                                contentController.text.isEmpty) return;
+                            if (titleController.text.isEmpty) {
+                              return Fluttertoast.showToast(
+                                  msg: 'Please enter a title');
+                            }
                             Navigator.pop(context);
-
                             if (widget.note == null) {
                               await provider.addNote(note);
                             } else {
