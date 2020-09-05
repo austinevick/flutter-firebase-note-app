@@ -44,7 +44,8 @@ dependencies:
   google_sign_in:  
   animations:  
   flutter_custom_dialog: 
-  page_transition:  
+  page_transition: 
+  modal_bottom_sheet: 
 
 dev_dependencies:
   flutter_test:
