@@ -1,7 +1,7 @@
 import 'package:firebase_note_app/authentication/user_authentication.dart';
 import 'package:firebase_note_app/constants/constant.dart';
 import 'package:firebase_note_app/screens/forgot_password_form.dart';
-import 'package:firebase_note_app/widget/alert_dialog.dart';
+import 'package:firebase_note_app/widget/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -183,8 +183,7 @@ class _SignInFormState extends State<SignInForm> {
       setState(() => isLoading = false);
 
       showDialog(
-          context: context,
-          builder: (context) => NoteAlertDialog(text: e.message));
+          context: context, builder: (context) => ErrorDialog(text: e.message));
     }
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class NoteAlertDialog extends StatelessWidget {
+class ErrorDialog extends StatelessWidget {
   final String text;
 
-  const NoteAlertDialog({Key key, this.text}) : super(key: key);
+  const ErrorDialog({Key key, this.text}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

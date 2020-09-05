@@ -46,6 +46,8 @@ dependencies:
   flutter_custom_dialog: 
   page_transition: 
   modal_bottom_sheet: 
+  fluttertoast:
+  random_color:  
 
 dev_dependencies:
   flutter_test:

@@ -1,7 +1,9 @@
+import 'package:firebase_note_app/widget/confirmation_bottom_sheet.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 import '../database/firestore_service.dart';
 import 'package:firebase_note_app/models/note.dart';
 import 'package:firebase_note_app/screens/alert_dialog_screen.dart';
-import 'package:firebase_note_app/widget/alert_dialog.dart';
 import 'package:firebase_note_app/widget/share.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +21,6 @@ class NoteBottomSheet extends StatelessWidget {
       padding: EdgeInsets.all(8),
       height: MediaQuery.of(context).size.height / 2,
       decoration: BoxDecoration(
-        //color: Theme.of(context).primaryColor,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
@@ -54,9 +55,22 @@ class NoteBottomSheet extends StatelessWidget {
             title: Text('Edit'),
           ),
           ListTile(
-            onTap: () async {
+            onTap: () {
               Navigator.of(context).pop();
-              await provider.deleteNote(note.userId);
+              showMaterialModalBottomSheet(
+                  shape: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15))),
+                  context: context,
+                  builder: (
+                    context,
+                    scrollController,
+                  ) =>
+                      ConfirmationBottomSheet(
+                        note: note,
+                      ));
             },
             leading: Icon(Icons.delete),
             title: Text('Delete'),
