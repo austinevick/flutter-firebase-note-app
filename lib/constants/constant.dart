@@ -12,7 +12,7 @@ final textInputDecoration = const InputDecoration(
     enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.white, width: 0.0)));
 
-final titleTextStyle = const TextStyle(
-    color: Colors.black, fontSize: 16, fontWeight: FontWeight.w700);
-final contentTextStyle = const TextStyle(color: Colors.black, fontSize: 16);
+final titleTextStyle =
+    const TextStyle(fontSize: 16, fontWeight: FontWeight.w700);
+final contentTextStyle = const TextStyle(fontSize: 16);
 final buttonTextStyle = const TextStyle(color: Colors.white);

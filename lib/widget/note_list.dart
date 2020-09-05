@@ -1,5 +1,6 @@
 import 'package:firebase_note_app/constants/constant.dart';
 import 'package:firebase_note_app/models/note.dart';
+import 'package:firebase_note_app/widget/bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -13,7 +14,7 @@ class NoteList extends StatelessWidget {
       padding: const EdgeInsets.all(4.0),
       child: Card(
         elevation: 4,
-        color: Colors.white,
+        color: Theme.of(context).primaryColor,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -52,7 +53,9 @@ class NoteList extends StatelessWidget {
                 GestureDetector(
                   onTap: () => showMaterialModalBottomSheet(
                       context: context,
-                      builder: (context, scrollController) => null),
+                      builder: (context, scrollController) => NoteBottomSheet(
+                            note: note,
+                          )),
                   child: Icon(
                     Icons.more_vert,
                     color: Colors.black,
