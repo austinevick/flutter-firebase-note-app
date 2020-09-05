@@ -3,12 +3,11 @@ import 'dart:async';
 import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/note.dart';
-import 'package:firebase_note_app/widget/widget.dart';
+import 'package:firebase_note_app/widget/note_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'alert_dialog_screen.dart';
-import 'search_screen.dart';
 import 'user_account_drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -65,9 +64,7 @@ class _HomePageState extends State<HomePage> {
                   Icons.search,
                   color: Colors.white,
                 ),
-                onPressed: () {
-                  showSearch(context: context, delegate: SearchScreen());
-                }),
+                onPressed: () {}),
           ],
         ),
         body: StreamBuilder<List<Note>>(
@@ -108,7 +105,9 @@ class _HomePageState extends State<HomePage> {
                                           isUpdating: true,
                                           note: note,
                                         )),
-                                    child: buildNoteList(context, note));
+                                    child: NoteList(
+                                      note: note,
+                                    ));
                               }))
                 ],
               );

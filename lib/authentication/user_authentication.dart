@@ -21,7 +21,7 @@ class UserAuthenticationService with ChangeNotifier {
       email: email,
     );
     await firestoreService.createUsers(_currentUser);
-    return result !
+    // return result !
   }
 
   Future signInWithEmailAndPassword(

@@ -1,6 +1,6 @@
 import 'package:firebase_note_app/authentication/user_authentication.dart';
 import 'package:firebase_note_app/constants/constant.dart';
-import 'package:firebase_note_app/widget/widget.dart';
+import 'package:firebase_note_app/widget/alert_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -109,15 +109,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         await auth.resetPassword(email);
         return showDialog(
             context: context,
-            builder: (context) => buildAlertDialog(
-                context, 'A password reset link has been sent to $email'));
+            builder: (context) => NoteAlertDialog(
+                text: 'A password reset link has been sent to $email'));
       }
     } on PlatformException catch (e) {
       print(e);
 
       showDialog(
           context: context,
-          builder: (context) => buildAlertDialog(context, e.message));
+          builder: (context) => NoteAlertDialog(text: e.message));
     }
   }
 }
