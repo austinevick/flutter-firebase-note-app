@@ -23,11 +23,6 @@ class MyApp extends StatelessWidget {
         defaultBrightness: Brightness.light,
         data: (brightness) => new ThemeData(
           primarySwatch: Colors.purple,
-          textTheme: TextTheme(
-            headline6: TextStyle(
-              color: Colors.black,
-            ),
-          ),
           brightness: brightness,
         ),
         themedWidgetBuilder: (context, theme) => MaterialApp(

@@ -33,7 +33,7 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
 
   @override
   Widget build(BuildContext context) {
-    final p = Provider.of<FirestoreService>(context);
+    final provider = Provider.of<FirestoreService>(context);
     return Dialog(
         shape: OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -146,9 +146,10 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                             Navigator.pop(context);
 
                             if (widget.note == null) {
-                              await p.addNote(note);
+                              await provider.addNote(note);
                             } else {
-                              await p.updateNote(note, widget.note.userId);
+                              await provider.updateNote(
+                                  note, widget.note.userId);
                             }
                           },
                           child: Text(widget.note == null ? 'DONE' : 'UPDATE',
@@ -168,7 +169,7 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                                 onPressed: () async {
                                   Navigator.pop(context);
 
-                                  await p.deleteNote(widget.note.userId);
+                                  await provider.deleteNote(widget.note.userId);
                                 },
                                 child: Text('DELETE',
                                     style: TextStyle(

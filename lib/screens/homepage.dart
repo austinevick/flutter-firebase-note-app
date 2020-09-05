@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/note.dart';
 import 'package:firebase_note_app/widget/note_list.dart';
+import 'package:firebase_note_app/widget/share.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  changeTheme(BuildContext context) {
-    DynamicTheme.of(context).setBrightness(
-        Theme.of(context).brightness == Brightness.dark
-            ? Brightness.light
-            : Brightness.dark);
-  }
-
   @override
   Widget build(BuildContext context) {
     final noteNotifier = Provider.of<FirestoreService>(context);
@@ -32,10 +25,11 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.purple,
             foregroundColor: Colors.white,
             onPressed: () {
-              _openCustomDialog(
+              openCustomDialog(
+                  context: context,
                   child: CustomDialogPage(
-                isUpdating: false,
-              ));
+                    isUpdating: false,
+                  ));
             },
             child: Icon(
               Icons.add,
@@ -100,8 +94,9 @@ class _HomePageState extends State<HomePage> {
                               itemBuilder: (context, index) {
                                 final note = snapshot.data[index];
                                 return GestureDetector(
-                                    onTap: () => _openCustomDialog(
-                                            child: CustomDialogPage(
+                                    onTap: () => openCustomDialog(
+                                        context: context,
+                                        child: CustomDialogPage(
                                           isUpdating: true,
                                           note: note,
                                         )),
@@ -112,23 +107,5 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             }));
-  }
-
-  void _openCustomDialog({Widget child}) {
-    showGeneralDialog(
-        barrierColor: Colors.black.withOpacity(0.5),
-        transitionBuilder: (context, a1, a2, widget) {
-          return Transform.scale(
-              scale: a1.value,
-              child: Opacity(
-                opacity: a1.value,
-                child: child,
-              ));
-        },
-        transitionDuration: Duration(milliseconds: 400),
-        barrierDismissible: true,
-        barrierLabel: '',
-        context: context,
-        pageBuilder: (context, animation1, animation2) {});
   }
 }
