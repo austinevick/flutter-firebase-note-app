@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/note.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +66,6 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8, left: 8),
                   child: TextField(
-                    // cursorColor: Colors.black,
                     cursorWidth: 1.5,
                     textCapitalization: TextCapitalization.sentences,
                     textInputAction: TextInputAction.next,
@@ -85,7 +85,6 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 8, right: 8),
                   child: TextField(
-                    // cursorColor: Colors.black,
                     cursorWidth: 1.5,
                     maxLines: null,
                     textCapitalization: TextCapitalization.sentences,
@@ -169,7 +168,10 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                                 onPressed: () async {
                                   Navigator.pop(context);
 
-                                  await provider.deleteNote(widget.note.userId);
+                                  final result = await provider
+                                      .deleteNote(widget.note.userId);
+                                  if (result != null)
+                                    Fluttertoast.showToast(msg: 'Note deleted');
                                 },
                                 child: Text('DELETE',
                                     style: TextStyle(

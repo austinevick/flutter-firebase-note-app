@@ -7,7 +7,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 class NoteList extends StatelessWidget {
   final Note note;
 
-  const NoteList({Key key, this.note}) : super(key: key);
+  NoteList({Key key, this.note}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
