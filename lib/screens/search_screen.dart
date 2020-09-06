@@ -9,13 +9,14 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   final controller = new TextEditingController();
   final List<Note> noteList = [];
-  void searchNote(String search) {
-    final List<Note> noteList = [];
-
+  searchNote(String search) {
+    final List<Note> searchResult = [];
     if (search.isEmpty) {}
     noteList.forEach((note) {
       if (note.title.toLowerCase().contains(search.toLowerCase()) ||
-          note.content.toLowerCase().contains(search.toLowerCase())) {}
+          note.content.toLowerCase().contains(search.toLowerCase())) {
+        searchResult.add(note);
+      }
     });
   }
 
