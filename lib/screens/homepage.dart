@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:firebase_note_app/database/firestore_service.dart';
 import 'package:firebase_note_app/models/note.dart';
-import 'package:firebase_note_app/screens/search_screen.dart';
 import 'package:firebase_note_app/widget/note_list.dart';
 import 'package:firebase_note_app/widget/share.dart';
 import 'package:flutter/material.dart';
@@ -54,21 +53,6 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () =>
                       Timer(Duration(seconds: 1), () => changeTheme(context))),
             ),
-            IconButton(
-              icon: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (
-                    context,
-                  ) =>
-                      SearchScreen(),
-                ),
-              ),
-            )
           ],
         ),
         body: StreamBuilder<List<Note>>(
