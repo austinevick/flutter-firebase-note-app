@@ -30,10 +30,10 @@ dependencies:
   cupertino_icons: ^0.1.3
   intl:
   provider:
-  cloud_firestore: 
+  cloud_firestore: ^0.13.5
   dynamic_theme:  
   shared_preferences:  
-  firebase_auth: 
+  firebase_auth:  ^0.16.0
   flutter_local_notifications:
   rxdart: 
   flutter_share:

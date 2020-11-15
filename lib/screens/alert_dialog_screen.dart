@@ -130,11 +130,7 @@ class _CustomDialogPageState extends State<CustomDialogPage> {
                           ),
                           color: Colors.purple,
                           onPressed: () async {
-                            final user =
-                                await FirebaseAuth.instance.currentUser();
-
                             Note note = Note(
-                                userId: user.uid,
                                 dateTime: DateFormat.yMMMd()
                                     .add_Hm()
                                     .format(DateTime.now()),

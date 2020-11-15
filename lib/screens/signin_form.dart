@@ -152,9 +152,9 @@ class _SignInFormState extends State<SignInForm> {
                       onTap: () => Navigator.push(
                           context,
                           PageTransition(
-                              duration: Duration(milliseconds: 500),
-                              child: SignUpForm(),
-                              type: PageTransitionType.downToUp)),
+                            duration: Duration(milliseconds: 500),
+                            child: SignUpForm(),
+                          )),
                       child: Text(
                         'Create account',
                         style: TextStyle(
