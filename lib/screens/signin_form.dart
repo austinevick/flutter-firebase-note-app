@@ -154,6 +154,7 @@ class _SignInFormState extends State<SignInForm> {
                           PageTransition(
                             duration: Duration(milliseconds: 500),
                             child: SignUpForm(),
+                            type: PageTransitionType.fade,
                           )),
                       child: Text(
                         'Create account',
